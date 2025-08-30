@@ -10,38 +10,38 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
       contents: read
+      id-token: write
 
     steps:
+      # 1️⃣ سحب الكود
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2️⃣ تهيئة Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '22.x'
 
-      - name: Install dependencies
+      # 3️⃣ تثبيت dependencies وبناء المشروع
+      - name: Install dependencies & Build
         run: |
-          cd backend
           npm install
-
-      - name: Build app
-        run: |
-          cd backend
           npm run build --if-present
 
+      # 4️⃣ تسجيل الدخول إلى Azure
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_XXXXX }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_XXXXX }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_XXXXX }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_7DE99843D61C401192598B1809219CA7 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5B25C9B8DDD84CB68C474C6A852C0FEC }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E1391499E51C4B0580AC778A95060F39 }}
 
+      # 5️⃣ نشر التطبيق على Azure
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'exp' # اسم التطبيق اللي اخترته في Azure
+          app-name: 'exp' # اسم التطبيق في Azure
           slot-name: 'Production'
-          package: ./backend
+          package: .
