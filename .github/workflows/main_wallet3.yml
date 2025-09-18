@@ -1,9 +1,9 @@
-name: Deploy Node.js app to Azure Web App
+name: Deploy Node.js App to Azure Web App
 
 on:
   push:
     branches:
-      - main  # ← غيّرها إذا كنت تستخدم master أو فرع ثاني
+      - main  # ← غيّرها إذا تشتغل على فرع مختلف
 
 jobs:
   build-and-deploy:
@@ -20,12 +20,12 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./backend  # ← غيّر اسم المجلد لو غير backend
+        working-directory: ./backend  # ← غيّرها إذا مجلد الكود مو اسمه backend
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: wallet3  # ← هذا اسم تطبيقك في Azure (اللي يظهر في App Services)
+          app-name: wallet3-a8d7h3hvhmdpdke4  # ← اسم التطبيق من Azure بالضبط
           slot-name: production
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-          package: ./backend  # ← غيّر اسم المجلد لو غير backend
+          package: ./backend  # ← تأكد أن المسار صحيح
