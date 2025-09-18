@@ -1,9 +1,9 @@
-name: Build and deploy Node.js app to Azure Web App
+name: Deploy Node.js app to Azure Web App
 
 on:
   push:
     branches:
-      - main
+      - main  # أو الفرع اللي تستخدمه
 
 jobs:
   build-and-deploy:
@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -20,16 +20,16 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./backend  # ← عدل حسب مجلدك
+        working-directory: ./backend  # ← عدلها حسب مجلدك
 
-      - name: Build app (اختياري لو عندك build script)
+      - name: Build app (اختياري)
         run: npm run build
         working-directory: ./backend
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: YOUR_WEB_APP_NAME
+          app-name: your-app-name-here  # ← استبدله باسم Web App من Azure
           slot-name: production
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-          package: ./backend  # ← نفس المجلد اللي فيه package.json
+          package: ./backend
